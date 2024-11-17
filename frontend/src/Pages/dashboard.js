@@ -1,8 +1,48 @@
-import { Link } from 'react-router-dom'
 import './dashboard.css';
 import NavBarDash from '../components/NavBarDash';
+import { useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import axios from 'axios'
 
 const Dashboard = () => {
+    const [userInput, setUserInput] = useState('');
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    const sendMessage = async () => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (user) {
+            const email = user.email;
+            console.log('User email:', email);
+        
+    
+            const data = {
+                email: email,
+                userInput: userInput,
+            };
+    
+            try {
+                const response = await axios.post('http://localhost:4000/api/users/chatbot', data, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                console.log('Response:', response.data);
+                setUserInput('');
+            }
+            catch (error) {
+                console.error('Error:', error.response ? error.response.data : error.message);
+            }
+        } else {
+            console.log('No user is signed in');
+        }
+    }
+
     return (
         <div>
             <div className="dark-gradient-background">
@@ -47,41 +87,12 @@ const Dashboard = () => {
                             <div className="dash-widget-chat">
                                 <div className="chat-header">Ask Poyo</div>
                                 <div className="chat-body">
-                                    <div className="chat-other">
-                                        im poyo
-                                    </div>
-                                    <div className="chat-other">
-                                        im poyo and youre watching disney channel dan dan dan dan
-                                    </div>
-                                    <div className="chat-other">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-other">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-other">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-other">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-other">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-self">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-self">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-self">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
-                                    <div className="chat-self">
-                                        asdajkdiqhwioqwdiaqwdkjqwdoiqjwdiojqwdoijqwoidjqowidjqowdjqiowdjqiowdoqwjdoqwdo
-                                    </div>
                                 </div>
-                                <input className="chat-input" placeholder="Ask Poyo for advice"></input>
+                                <input 
+                                    className="chat-input"
+                                    placeholder="Ask Poyo for advice"
+                                    onKeyDown={sendMessage}
+                                />
                             </div>
                         </div>
                     </div>
