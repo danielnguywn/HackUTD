@@ -1,27 +1,24 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { CssBaseline } from "@mui/material";
-import "./index.css"; // Ensure Tailwind CSS is imported
+import "./index.css";
+import React from 'react';
+import App from './App';
+import {BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ReactDOM from 'react-dom';
+import SignIn from "./Pages/signin";
+import SignUp from "./Pages/signup";
+import Dashboard from "./Pages/dashboard";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2", // Material-UI's default primary blue
-    },
-    secondary: {
-      main: "#ff4081", // Pink
-    },
-  },
-});
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
-ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+root.render(
+     <React.StrictMode>
+       <Router>
+         <Routes>
+           <Route path="/" element={<App />} />
+           <Route path="/signin" element={<SignIn />} />
+           <Route path="/signup" element={<SignUp />} />
+           <Route path="/dashboard" element={<dashboard />} />
+         </Routes>
+       </Router>
+     </React.StrictMode>
+   );
+   
