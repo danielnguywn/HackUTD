@@ -80,7 +80,13 @@ const Dashboard = () => {
                         </div>
                         <div className="dash-row">
                             <div className="dash-widget-large">
-                                <div className="dash-widget-label">Add Transaction Record</div>
+                                <div className="dash-widget-large-half">
+                                    <div className="dash-widget-label">Add Transaction Record</div>
+                                </div>
+                                <div className="dash-widget-large-divider"/>
+                                <div className="dash-widget-large-half">
+                                    <div className="dash-widget-label">Transactions</div>
+                                </div>
                             </div>
                         </div>
                     </div>
