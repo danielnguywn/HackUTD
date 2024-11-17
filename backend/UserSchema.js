@@ -26,27 +26,7 @@ const UserSchema = new Schema({
             type: String, 
             required: true
         },
-        Frequency: {
-            type: String, 
-            required: true
-        },
-        Services: {
-            type: String, 
-            required: true
-        },
-        IncomeMethod: {
-            type: String, 
-            required: true
-        },
-        Savings: {
-            type: String, 
-            required: true
-        },
-        Goal: {
-            type: String, 
-            required: true
-        },
-        Budget: {
+        Income: {
             type: String, 
             required: true
         },
@@ -54,20 +34,35 @@ const UserSchema = new Schema({
             type: String, 
             required: true
         },
-    },
-    BankInfo: {
-        BankName: {
+        Goal: {
             type: String, 
             required: true
         },
-        AccountNumber: {
+        GoalAmount: {
             type: String, 
             required: true
         },
-        RoutingNumber: {
+        CurrentDone: {
             type: String, 
             required: true
         },
+        History: [
+            {
+              role: {
+                type: String,
+                enum: ['user', 'assistant'],
+                required: true,
+              },
+              content: {
+                type: String,
+                required: true,
+              },
+              timestamp: {
+                type: Date,
+                default: Date.now,
+              },
+            },
+          ],
     },
 }, {timestamps: true});
 

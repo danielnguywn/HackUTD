@@ -35,7 +35,7 @@ router.get('/:email', async (req,res) => {
   })
 
 
-router.
+router.patch()
 
 
 module.exports = router;
