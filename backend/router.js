@@ -76,8 +76,10 @@ router.post('/chatbot',async (req,res)=>{
   const {email, userInput} =  req.body
 
   const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email":email})
-  const chatHistory = Userdata.User.AccountInfo.History
-  
+  //console.log(Userdata)
+  //console.log(Userdata)
+  const chatHistory = await Userdata.User.AccountInfo.History
+  console.log(chatHistory)
   const headers = {
     'Authorization': `Bearer ${process.env.SAMBANOVA_APIKEY}`,
     'Content-Type': 'application/json'
@@ -90,22 +92,32 @@ router.post('/chatbot',async (req,res)=>{
           ...chatHistory.length > 0 ? chatHistory : [{ role: "system", content: "This is the start of a new conversation." }],
           { role: "user", content: userInput }
         ],
-        temperature: 0.7, 
-        max_tokens: 100
+        temperature: 0.7
+        // max_tokens: 100
       };
+      console.log('fine here')
       
       const response = await axios.post("https://api.sambanova.ai/v1/chat/completions", requestBody, { headers });
+      console.log('Fine fine here')
       const completionText = response.data.choices?.[0]?.message?.content || 'No response';
-      
+      console.log(completionText)
       Userdata.User.AccountInfo.History.push({role:"user",content:userInput})
       Userdata.User.AccountInfo.History.push({role:"assistant",content:completionText})
 
       await Userdata.save()
+
+
+      console.log('SambaNova Completion:', completionText);
+
+
       res.json({"botresponse":completionText})
 
   } catch (error) {
     console.error('Error with SambaNova API request:', error.response?.data || error.message);
   }
-});
+
+
+
+})
 
 module.exports = router;
