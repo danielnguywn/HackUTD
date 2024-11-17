@@ -1,32 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Container } from '@mui/material';
+import Background from "../components/backround";
 
 function SignIn() {
+     // State to store input values
+     const [formValues, setFormValues] = useState({
+          username: '',
+          email: '',
+          password: ''
+     });
+
+     // Handle input change
+     const handleChange = (event) => {
+          const { name, value } = event.target;
+          setFormValues((prevValues) => ({
+               ...prevValues,
+               [name]: value
+          }));
+     };
+
+     // Handle sign-in button click
+     const handleSignIn = () => {
+          // Log the input values
+          console.log(JSON.stringify(formValues));
+          console.log(formValues);
+          // You can replace the console.log with an API call or further logic
+          // Example: send formValues to a server
+     };
+
      return (
           <Box className="flex h-screen relative">
-               {/* Background gradient taking up most of the screen */}
-               <Box className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500" />
-               
-               {/* Login container - positioned absolutely */}
+               <Background />
                <Box className="absolute top-1/2 right-[15%] transform -translate-y-1/2">
                     <Container 
                          maxWidth={false} 
                          className="flex flex-col items-center bg-white p-[69px] rounded-[50px] shadow-lg"
                          sx={{
-                              width: 'fit-content',
-                              height: 'fit-content',
                               fontFamily: 'Gantari, sans-serif',
                          }}
                     >
                          <Typography variant="h3" className="font-bold text-gray-800 !mb-[30px]" sx={{ fontFamily: 'Gantari, sans-serif' }}>
                               Sign In
                          </Typography>
-                         
+
+
                          <TextField
                               fullWidth
                               variant="outlined"
                               label="Email Address"
                               type="email"
+                              name="email" // Added name for controlled input
+                              value={formValues.email}
+                              onChange={handleChange}
                               required
                               className="mb-[30px]"
                               sx={{
@@ -57,6 +82,9 @@ function SignIn() {
                               variant="outlined"
                               label="Password"
                               type="password"
+                              name="password" // Added name for controlled input
+                              value={formValues.password}
+                              onChange={handleChange}
                               required
                               className="mb-[30px]"
                               sx={{
@@ -86,6 +114,7 @@ function SignIn() {
                               variant="contained" 
                               fullWidth
                               className="text-white"
+                              onClick={() => handleSignIn()} // Updated handler
                               sx={{
                                    textTransform: 'none',
                                    boxShadow: 'none',
@@ -102,7 +131,7 @@ function SignIn() {
                          >
                               Sign In
                          </Button>
-                         <Typography variant="body2" className="text-black-600" sx={{ fontFamily: 'Gantari, sans-serif' }}>
+                         <Typography variant="body1" className="text-black-600" sx={{ fontFamily: 'Gantari, sans-serif' }}>
                               Don't have an account? <a href="/signup" className="text-[#40B7BA]">Sign up here!</a>
                          </Typography>
                     </Container>
