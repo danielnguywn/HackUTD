@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from './firebase';
 import { Link, useNavigate } from 'react-router-dom';
+import './signin.css'
 
 const GoogleIcon = () => (
     <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -65,12 +66,12 @@ const SignIn = () => {
 
     return (
         <div className="min-h-screen relative flex items-center justify-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-purple-600"></div>
+            <div className="signin-background"></div>
             <div className="relative w-full max-w-md mx-4">
-                <div className="bg-white rounded-[2rem] shadow-xl p-8 md:p-12">
+                <div className="bg-white rounded-[2rem] p-8 md:p-12">
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
-                        <p className="text-gray-500 mt-2">Sign in to your account</p>
+                        <p className="text-[#E9E9E9]0 mt-2">Sign in to your account</p>
                     </div>
                     <div className="space-y-6">
                         <div>
@@ -82,7 +83,7 @@ const SignIn = () => {
                                 id="email"
                                 value={emailInput}
                                 onChange={(e) => setEmailInput(e.target.value)}
-                                className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
                                 placeholder="Enter your email"
                             />
                         </div>
@@ -95,7 +96,7 @@ const SignIn = () => {
                                 id="password"
                                 value={passwordInput}
                                 onChange={(e) => setPasswordInput(e.target.value)}
-                                className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
                                 placeholder="Enter your password"
                             />
                         </div>
@@ -106,7 +107,7 @@ const SignIn = () => {
                         )}
                         <button
                             onClick={handleSignIn}
-                            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
+                            className="w-full bg-[#40B7BA] hover:bg-[#2A8199] text-white font-medium py-3 px-4 rounded-xl transition-all"
                         >
                             Sign in
                         </button>
@@ -115,23 +116,23 @@ const SignIn = () => {
                                 <div className="w-full border-t border-gray-200"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-4 text-gray-500 bg-white">Or continue with</span>
+                                <span className="px-4 text-[#E9E9E9]0 bg-white">Or continue with</span>
                             </div>
                         </div>
                         <button
                             onClick={handleGoogleSignIn}
-                            className="w-full bg-white hover:bg-gray-50 text-gray-600 font-medium py-3 px-4 border border-gray-200 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md flex items-center justify-center gap-2"
+                            className="w-full bg-white hover:bg-[#E9E9E9] text-gray-600 font-medium py-3 px-4 border  rounded-xl transition-all flex items-center justify-center gap-2"
                         >
                             <GoogleIcon />
                             Continue with Google
                         </button>
                     </div>
-                    <div className="mt-8 text-center text-sm text-gray-500">
-                        <Link to="/forgot-password" className="text-purple-600 hover:text-purple-700">
+                    <div className="mt-8 text-center text-sm text-[#E9E9E9]0">
+                        <Link to="/forgot-password" className="text-[#40B7BA] hover:text-[#2A8199] transition-all ml-1">
                             Forgot password?
                         </Link>
                         <span className="mx-2">•</span>
-                        <Link to="/signup" className="text-purple-600 hover:text-purple-700">
+                        <Link to="/signup" className="text-[#40B7BA] hover:text-[#2A8199] transition-all ml-1">
                             Sign up for an account
                         </Link>
                     </div>

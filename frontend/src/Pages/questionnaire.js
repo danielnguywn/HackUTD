@@ -22,6 +22,8 @@ const Questionnaire = () => {
                         </div>
                         <div className="form-label">What is your goal amount?</div>
                         <input className="form-input" placeholder="Enter goal amount..."/>
+                        <div className="form-label">How much is currently saved?</div>
+                        <input className="form-input" placeholder="Enter saved amount..."/>
                         <div className="align-right">
                             <Link to="/dashboard" className="teal-button">Complete form</Link>
                         </div>

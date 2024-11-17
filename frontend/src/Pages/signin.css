@@ -1,0 +1,9 @@
+.signin-background {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    background-image: linear-gradient(var(--teal), var(--purple), var(--teal));
+    background-size: auto 200%;
+    animation: scrollGradientVertical 8s linear infinite;
+}
