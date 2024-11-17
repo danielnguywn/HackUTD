@@ -91,8 +91,8 @@ router.post('/chatbot',async (req,res)=>{
 
   const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email":email})
   //console.log(Userdata)
-
-  const chatHistory = Userdata.User.AccountInfo.History
+  //console.log(Userdata)
+  const chatHistory = await Userdata.User.AccountInfo.History
   console.log(chatHistory)
   const headers = {
     'Authorization': `Bearer ${process.env.SAMBANOVA_APIKEY}`,
@@ -106,8 +106,8 @@ router.post('/chatbot',async (req,res)=>{
           ...chatHistory.length > 0 ? chatHistory : [{ role: "system", content: "This is the start of a new conversation." }],
           { role: "user", content: userInput }
         ],
-        temperature: 0.7, 
-        max_tokens: 100
+        temperature: 0.7
+        // max_tokens: 100
       };
       console.log('fine here')
       
