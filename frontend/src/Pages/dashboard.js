@@ -10,7 +10,9 @@ const Dashboard = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const [uploadedAmounts, setUploadedAmounts] = useState([]);
+    const [balance, setBalance] = useState(800.00);
     const fileInputRef = useRef(null);
+
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -52,6 +54,7 @@ const Dashboard = () => {
             });
 
             console.log('Upload successful:', response.data.amount);
+            setBalance(prevBalance => prevBalance + (response.data.amount ? parseFloat(response.data.amount) : 0));
             setUploadedAmounts(prevAmounts => [...prevAmounts, response.data.amount]);
         } catch (error) {
             console.error('Upload failed:', error);
@@ -109,7 +112,7 @@ const Dashboard = () => {
                             <div className="dash-widget-small">
                                 <div className="dash-widget-label">Balance</div>
                                 <div className="dash-widget-text">
-                                    <div className="dash-widget-bold">$800.00</div>
+                                    <div className="dash-widget-bold">${balance.toFixed(2)}</div>
                                 </div>
                             </div>
                             <div className="dash-widget-small">
