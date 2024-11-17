@@ -35,7 +35,7 @@ const SignIn = () => {
         const userInfo = { uid: user.uid, email: user.email };
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         console.log("User signed in:", userInfo);
-        navigate('/form');
+        navigate('/dashboard');
     };
 
     const handleSignIn = async () => {
