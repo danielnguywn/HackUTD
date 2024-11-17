@@ -9,8 +9,8 @@ EarnNest was inspired by the many unbanked and underbanked who lack access to tr
 - Real-time finance tracking
 
 ## Contributors
-Daniel Nguyen
-Sunay Shehaan
-Hitarth Thanki
-Adrian Tran
+- Daniel Nguyen
+- Sunay Shehaan
+- Hitarth Thanki
+- Adrian Tran
 
