@@ -6,7 +6,19 @@ const mongoose = require('mongoose');
 const OpenAI = require('openai')
 const axios = require('axios')
 
+const vision = require('@google-cloud/vision')
 
+const client = new vision.ImageAnnotatorClient()
+async function getTextfromImage (imagePath) {
+  const [result] = await client.textDetection(imagePath);
+  const detections = result.textAnnotations;
+  if (detections.length > 0) {
+    console.log('Detected Text:', detections[0].description);
+  } else {
+    console.log('No text found.');
+  }
+}
+getTextfromImage('receipt.jpg')
 // create user
 router.post('/', async (req, res) => {
     try {
