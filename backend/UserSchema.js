@@ -23,14 +23,6 @@ const UserSchema = new Schema({
         },
     },
     AccountInfo: {
-        Occupation: {
-            type: String, 
-            //required: true
-        },
-        Income: {
-            type: String, 
-            //required: true
-        },
         Deposit: {
             type: String, 
             //required: true
@@ -43,7 +35,7 @@ const UserSchema = new Schema({
             type: String, 
             //required: true
         },
-        CurrentDone: {
+        CurrentAmount: {
             type: String, 
             //required: true
         },
