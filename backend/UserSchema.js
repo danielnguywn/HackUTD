@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    User:{
     PersonalInfo: {
         FirstName: {
             type: String, 
@@ -24,38 +25,38 @@ const UserSchema = new Schema({
     AccountInfo: {
         Occupation: {
             type: String, 
-            required: true
+            //required: true
         },
         Income: {
             type: String, 
-            required: true
+            //required: true
         },
         Deposit: {
             type: String, 
-            required: true
+            //required: true
         },
         Goal: {
             type: String, 
-            required: true
+            //required: true
         },
         GoalAmount: {
             type: String, 
-            required: true
+            //required: true
         },
         CurrentDone: {
             type: String, 
-            required: true
+            //required: true
         },
         History: [
             {
               role: {
                 type: String,
                 enum: ['user', 'assistant'],
-                required: true,
+                //required: true,
               },
               content: {
                 type: String,
-                required: true,
+                //required: true,
               },
               timestamp: {
                 type: Date,
@@ -64,6 +65,6 @@ const UserSchema = new Schema({
             },
           ],
     },
-}, {timestamps: true});
+}}, {timestamps: true});
 
 module.exports = mongoose.model("UserProfile", UserSchema);
