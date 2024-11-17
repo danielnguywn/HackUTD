@@ -1,18 +1,63 @@
 import './dashboard.css';
 import NavBarDash from '../components/NavBarDash';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { getAuth } from 'firebase/auth';
-import axios from 'axios'
+import axios from 'axios';
 
 const Dashboard = () => {
     const [userInput, setUserInput] = useState('');
     const [chatHistory, setChatHistory] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
+    const fileInputRef = useRef(null);
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             sendMessage();
         }
     }
+
+    const handleFileSelect = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+            handleFileUpload(file);
+        }
+    };
+
+    const handleUploadClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileUpload = async (file) => {
+        setIsUploading(true);
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+            console.log('No user is signed in');
+            setIsUploading(false);
+            return;
+        }
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await axios.post('http://localhost:4000/api/users/fileupload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            console.log('Upload successful:', response.data.amount);
+        } catch (error) {
+            console.error('Upload failed:', error);
+        } finally {
+            setIsUploading(false);
+            setSelectedFile(null);
+        }
+    };
 
     const sendMessage = async () => {
         const auth = getAuth();
@@ -21,7 +66,6 @@ const Dashboard = () => {
             const email = user.email;
             console.log('User email:', email);
         
-    
             const data = {
                 email: email,
                 userInput: userInput,
@@ -83,7 +127,20 @@ const Dashboard = () => {
                                 <div className="dash-widget-large-half">
                                     <div className="dash-widget-label">Add Transaction Record</div>
                                     <div className="align-center">
-                                        <div className="teal-button">Upload transaction record</div>
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            onChange={handleFileSelect}
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                        />
+                                        <button 
+                                            className="teal-button"
+                                            onClick={handleUploadClick}
+                                            disabled={isUploading}
+                                        >
+                                            {isUploading ? 'Uploading...' : 'Upload transaction record'}
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="dash-widget-large-divider"/>
