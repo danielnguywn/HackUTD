@@ -112,7 +112,6 @@ const SignUp = () => {
                 <div className="bg-white rounded-[2rem] p-8 md:p-12">
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
-                        <p className="text-[#E9E9E9]0 mt-2">Join us today</p>
                     </div>
                     <form onSubmit={handleSignUp} className="space-y-6">
                         <div className="grid grid-cols-2 gap-4">
@@ -126,7 +125,7 @@ const SignUp = () => {
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] border focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
+                                    className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
                                     placeholder="John"
                                 />
                             </div>
@@ -140,7 +139,7 @@ const SignUp = () => {
                                     name="lastName"
                                     value={formData.lastName}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] border focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
+                                    className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
                                     placeholder="Doe"
                                 />
                             </div>
@@ -155,7 +154,7 @@ const SignUp = () => {
                                 name="email"
                                 value={formData.email}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] border focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
                                 placeholder="john@example.com"
                             />
                         </div>
@@ -169,7 +168,21 @@ const SignUp = () => {
                                 name="password"
                                 value={formData.password}
                                 onChange={handleInputChange}
-                                className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] border focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
+                                placeholder="••••••••"
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1 ml-1">
+                                Confirm Password
+                            </label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 rounded-xl bg-[#E9E9E9] focus:border-[#40B7BA] hover:bg-[#D9D9D9] focus:ring-2 focus:ring-[#40B7BA] outline-none transition-all"
                                 placeholder="••••••••"
                             />
                         </div>
@@ -187,9 +200,6 @@ const SignUp = () => {
                         <div className="relative my-6">
                             <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t "></div>
-                            </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-4 text-[#E9E9E9]0 bg-white">Or continue with</span>
                             </div>
                         </div>
                         <button
