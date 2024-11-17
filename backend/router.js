@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 require('dotenv').config();
 const mongoose = require('mongoose');
+const OpenAI = require('openai')
+const axios = require('axios')
 
 router.post('/', async (req, res) => {
     try {

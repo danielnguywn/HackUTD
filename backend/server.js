@@ -1,6 +1,7 @@
 const express=require('express')
 const cors = require('cors');
 require('dotenv').config()
+const router=require('./router')
 const mongoose = require('mongoose')
 
 const app=express()
@@ -10,10 +11,7 @@ app.use(cors({
   credentials: true
 }))
 app.use(express.json())
-
-const userRoutes = require("./router.js");
-app.use('/api/users', userRoutes);
-
+app.use('/api/users', router);
 const server = app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });
