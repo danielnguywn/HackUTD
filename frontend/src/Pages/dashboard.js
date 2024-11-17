@@ -3,6 +3,7 @@ import NavBarDash from '../components/NavBarDash';
 import { useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import axios from 'axios'
+import Portal from '../components/addtransactionmodalcontent';
 
 const Dashboard = () => {
     const [userInput, setUserInput] = useState('');
@@ -13,7 +14,6 @@ const Dashboard = () => {
             sendMessage();
         }
     }
-
     const sendMessage = async () => {
         const auth = getAuth();
         const user = auth.currentUser;
@@ -79,9 +79,11 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="dash-row">
-                            <div className="dash-widget-large">
-                                <div className="dash-widget-label">Add Transaction Record</div>
+                        <div className="dash-widget-large">
+                            <div className="dash-widget-label">
+                                <Portal />
                             </div>
+                        </div>
                         </div>
                     </div>
                     <div className="dash-right">
