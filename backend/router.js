@@ -6,45 +6,59 @@ const mongoose = require('mongoose');
 const OpenAI = require('openai');
 const axios = require('axios');
 const vision = require('@google-cloud/vision');
+const multer=require('multer')
+const fs = require('fs')
+const path=require('path')
 
 const client = new vision.ImageAnnotatorClient();
 
-async function getTextFromImage(imagePath) {
-    try {
-      const result = await client.textDetection(imagePath).catch(err => null);
-      if (!result?.[0]?.textAnnotations?.[0]) return null;
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix)
+  }
+})
+const upload = multer({ storage: storage })
+
+router.post('/fileupload',upload.single('file'), async (req,res)=>{
+  try{
+    const filePath=req.file.path
+    const result=await client.textDetection(filePath).catch(err => null);
+    
+    if (!result?.[0]?.textAnnotations?.[0]) return null;
   
-      const text = result[0].textAnnotations[0].description.toLowerCase();
-      const lines = text.split('\n');
-  
-      if (text.includes('withdraw') || text.includes('withdrawal')) {
-        const amount = lines.find(line => 
-          line.includes('$') && !line.includes('balance')
-        )?.match(/\d+\.?\d*/)?.[0];
-        
-        return amount ? (-parseFloat(amount)).toFixed(2) : null;
-      }
-  
+    const text = result[0].textAnnotations[0].description.toLowerCase();
+    const lines = text.split('\n');
+    var finalamount = 0
+    if (text.includes('withdraw') || text.includes('withdrawal')) {
+      const amount = lines.find(line => 
+        line.includes('$') && !line.includes('balance')
+      )?.match(/\d+\.?\d*/)?.[0];
+      
+      finalamount = amount ? (-parseFloat(amount)).toFixed(2) : null;
+  }
+    else{
       const amountLine = lines.find(line => line.includes('amount'));
       if (amountLine) {
         const nextLine = lines[lines.indexOf(amountLine) + 1];
         const amount = nextLine?.match(/\d+\.?\d*/)?.[0];
-        return amount ? parseFloat(amount).toFixed(2) : null;
+        finalamount = amount ? parseFloat(amount).toFixed(2) : null;
       }
-      
-      return null;
-    } catch (error) {
-      console.error('OCR Error:', error);
-      return null;
     }
+  res.json({"amount":finalamount})}
+  catch(error){
+    console.error('OCR Error:', error);
   }
+})
 
-  async function testOCR(imagePath) {
-    const result = await getTextFromImage(imagePath);
-    console.log('OCR Result:', result);
-  }
-  
-  testOCR('deposit.jpg');
 
 router.post('/', async (req, res) => {
     try {
@@ -79,12 +93,10 @@ router.patch('/:email', async (req, res) => {
 
       const updateData = {
           $set: {
-              "User.AccountInfo.Occupation": AccountInfo.Occupation,
-              "User.AccountInfo.Income": AccountInfo.Income,
               "User.AccountInfo.Deposit": AccountInfo.Deposit,
               "User.AccountInfo.Goal": AccountInfo.Goal,
               "User.AccountInfo.GoalAmount": AccountInfo.GoalAmount,
-              "User.AccountInfo.CurrentDone": AccountInfo.CurrentDone
+              "User.AccountInfo.CurrentAmount": AccountInfo.CurrentAmount
           }
       };
 
@@ -109,8 +121,8 @@ router.post('/chatbot',async (req,res)=>{
 
   const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email":email})
   //console.log(Userdata)
-  //console.log(Userdata)
-  const chatHistory = await Userdata.User.AccountInfo.History
+  console.log(Userdata)
+  const chatHistory = Userdata.User.AccountInfo.History
   console.log(chatHistory)
   const headers = {
     'Authorization': `Bearer ${process.env.SAMBANOVA_APIKEY}`,
