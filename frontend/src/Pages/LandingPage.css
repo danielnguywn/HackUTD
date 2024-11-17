@@ -9,8 +9,8 @@
 .wave-background {
     position: absolute;
     right: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-image: url('/public/images/white-wave.svg');
     background-position-x: left;
     background-repeat: no-repeat;

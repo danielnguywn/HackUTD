@@ -4,6 +4,7 @@ import './App.css';
 
 import LandingPage from './Pages/LandingPage';
 import SignIn from './Pages/signin';
+import Questionnaire from './Pages/questionnaire';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/form" element={<Questionnaire />} />
         </Routes>
       </div>
     </div>
