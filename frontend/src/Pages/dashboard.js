@@ -177,6 +177,14 @@ const Dashboard = () => {
                             <div className="dash-widget-chat">
                                 <div className="chat-header">Ask Poyo</div>
                                 <div className="chat-body">
+                                    <div className="chat-other">
+                                        Here's the financial tip of the day!
+                                        Allocate 50% of your income towards necessary expenses (rent, utilities, groceries, etc.).
+                                        Use 30% for discretionary spending (entertainment, hobbies, travel, etc.).
+                                        Put 20% towards saving and debt repayment (emergency fund, retirement, paying off high-interest loans, etc.).
+
+                                        This rule helps you prioritize your spending, save for the future, and manage debt effectively.
+                                    </div>
                                     {chatHistory.map((message, index) => (
                                         <div 
                                             key={index}
