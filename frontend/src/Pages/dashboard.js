@@ -9,6 +9,7 @@ const Dashboard = () => {
     const [chatHistory, setChatHistory] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
+    const [transactionAmount, setTransactionAmount] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleKeyDown = (e) => {
@@ -50,7 +51,9 @@ const Dashboard = () => {
                 }
             });
 
-            console.log('Upload successful:', response.data.amount);
+            const amount = response.data.amount
+            console.log('Upload successful:', amount);
+            setTransactionAmount(amount);
         } catch (error) {
             console.error('Upload failed:', error);
         } finally {
@@ -135,10 +138,11 @@ const Dashboard = () => {
                                             style={{ display: 'none' }}
                                         />
                                         <button 
-                                            className="teal-button"
+                                            className="file-upload-button"
                                             onClick={handleUploadClick}
                                             disabled={isUploading}
                                         >
+                                            <div className="file-upload-plus">+</div>
                                             {isUploading ? 'Uploading...' : 'Upload transaction record'}
                                         </button>
                                     </div>
@@ -146,6 +150,11 @@ const Dashboard = () => {
                                 <div className="dash-widget-large-divider"/>
                                 <div className="dash-widget-large-half">
                                     <div className="dash-widget-label">Transactions</div>
+                                    {transactionAmount !== null && (
+                                        <div className={transactionAmount < 0 ? 'transaction-negative' : 'transaction-positive'}>
+                                            {transactionAmount < 0 ? '-' : '+'}${Math.abs(transactionAmount)}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

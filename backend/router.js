@@ -31,7 +31,9 @@ const upload = multer({ storage: storage })
 router.post('/fileupload',upload.single('file'), async (req,res)=>{
   try{
     const filePath=req.file.path
+    console.log(filePath)
     const result=await client.textDetection(filePath).catch(err => null);
+    console.log(result)
     
     if (!result?.[0]?.textAnnotations?.[0]) return null;
   
