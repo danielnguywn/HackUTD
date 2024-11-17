@@ -53,7 +53,7 @@ const SignUp = () => {
         };
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         console.log("User signed up:", userInfo);
-        navigate('/dashboard');
+        navigate('/form');
     };
 
     const validateForm = () => {
