@@ -69,7 +69,7 @@ const Dashboard = () => {
                             <div className="dash-widget-small">
                                 <div className="dash-widget-label">Progress Towards Goal</div>
                                 <div className="dash-widget-text">
-                                    <div className="dash-widget-bold">$0</div>
+                                    <div className="dash-widget-bold">$325</div>
                                     <div className="dash-widget-secondary">/ $1,000</div>
                                 </div>
                                 <div className="dash-widget-progress">
