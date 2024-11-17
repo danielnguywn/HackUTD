@@ -95,6 +95,12 @@
     margin-right: 2rem;
 }
 
+.align-center {
+    margin-left: 2.3vw;
+    margin-right: auto;
+    margin-top: 7rem;
+}
+
 .dash-widget-avatar {
     display: flex;
     flex-direction: row;

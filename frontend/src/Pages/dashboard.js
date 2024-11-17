@@ -82,6 +82,9 @@ const Dashboard = () => {
                             <div className="dash-widget-large">
                                 <div className="dash-widget-large-half">
                                     <div className="dash-widget-label">Add Transaction Record</div>
+                                    <div className="align-center">
+                                        <div className="teal-button">Upload transaction record</div>
+                                    </div>
                                 </div>
                                 <div className="dash-widget-large-divider"/>
                                 <div className="dash-widget-large-half">
