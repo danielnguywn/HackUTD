@@ -7,20 +7,20 @@ function SignIn() {
                {/* Background gradient taking up most of the screen */}
                <Box className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500" />
                
-               {/* Login container - centered */}
-               <Box className="relative flex items-center w-full">
+               {/* Login container - positioned absolutely */}
+               <Box className="absolute top-1/2 right-[15%] transform -translate-y-1/2">
                     <Container 
                          maxWidth={false} 
                          className="flex flex-col items-center bg-white p-[69px] rounded-[50px] shadow-lg"
                          sx={{
                               width: 'fit-content',
                               height: 'fit-content',
-
+                              fontFamily: 'Gantari, sans-serif',
                          }}
                     >
-                         <div variant="h1" className="font-bold text-gray-800 mb-[30px]">
+                         <Typography variant="h3" className="font-bold text-gray-800 !mb-[30px]" sx={{ fontFamily: 'Gantari, sans-serif' }}>
                               Sign In
-                         </div>
+                         </Typography>
                          
                          <TextField
                               fullWidth
@@ -36,15 +36,18 @@ function SignIn() {
                                         borderRadius: '20px',
                                         backgroundColor: '#E9E9E9',
                                         marginBottom: '30px',
+                                        fontFamily: 'Gantari, sans-serif',
                                         '&:hover fieldset': {
                                              borderColor: '#3B82F6',
                                         },
                                    },
                                    '& .MuiInputLabel-outlined': {
                                         transform: 'translate(14px, 10px) scale(1)',
+                                        fontFamily: 'Gantari, sans-serif',
                                    },
                                    '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
                                         transform: 'translate(14px, -6px) scale(0.75)',
+                                        fontFamily: 'Gantari, sans-serif',
                                    },
                               }}
                          />
@@ -63,15 +66,18 @@ function SignIn() {
                                         borderRadius: '20px',
                                         backgroundColor: '#E9E9E9',
                                         marginBottom: '30px',
+                                        fontFamily: 'Gantari, sans-serif',
                                         '&:hover fieldset': {
                                              borderColor: '#3B82F6',
                                         },
                                    },
                                    '& .MuiInputLabel-outlined': {
                                         transform: 'translate(14px, 10px) scale(1)',
+                                        fontFamily: 'Gantari, sans-serif',
                                    },
                                    '& .MuiInputLabel-outlined.MuiInputLabel-shrink': {
                                         transform: 'translate(14px, -6px) scale(0.75)',
+                                        fontFamily: 'Gantari, sans-serif',
                                    },
                               }}
                          />
@@ -87,6 +93,8 @@ function SignIn() {
                                    width: '351px',
                                    height: '40px',
                                    borderRadius: '20px',
+                                   marginBottom: '30px',
+                                   fontFamily: 'Gantari, sans-serif',
                                    '&:hover': {
                                         backgroundColor: '#40B7BA',
                                    }
@@ -94,6 +102,9 @@ function SignIn() {
                          >
                               Sign In
                          </Button>
+                         <Typography variant="body2" className="text-black-600" sx={{ fontFamily: 'Gantari, sans-serif' }}>
+                              Don't have an account? <a href="/signup" className="text-[#40B7BA]">Sign up here!</a>
+                         </Typography>
                     </Container>
                </Box>
           </Box>
