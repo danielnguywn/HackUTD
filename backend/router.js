@@ -3,23 +3,49 @@ const express = require("express");
 const router = express.Router();
 require('dotenv').config();
 const mongoose = require('mongoose');
-const OpenAI = require('openai')
-const axios = require('axios')
+const OpenAI = require('openai');
+const axios = require('axios');
+const vision = require('@google-cloud/vision');
 
-const vision = require('@google-cloud/vision')
+const client = new vision.ImageAnnotatorClient();
 
-const client = new vision.ImageAnnotatorClient()
-async function getTextfromImage (imagePath) {
-  const [result] = await client.textDetection(imagePath);
-  const detections = result.textAnnotations;
-  if (detections.length > 0) {
-    console.log('Detected Text:', detections[0].description);
-  } else {
-    console.log('No text found.');
+async function getTextFromImage(imagePath) {
+    try {
+      const result = await client.textDetection(imagePath).catch(err => null);
+      if (!result?.[0]?.textAnnotations?.[0]) return null;
+  
+      const text = result[0].textAnnotations[0].description.toLowerCase();
+      const lines = text.split('\n');
+  
+      if (text.includes('withdraw') || text.includes('withdrawal')) {
+        const amount = lines.find(line => 
+          line.includes('$') && !line.includes('balance')
+        )?.match(/\d+\.?\d*/)?.[0];
+        
+        return amount ? (-parseFloat(amount)).toFixed(2) : null;
+      }
+  
+      const amountLine = lines.find(line => line.includes('amount'));
+      if (amountLine) {
+        const nextLine = lines[lines.indexOf(amountLine) + 1];
+        const amount = nextLine?.match(/\d+\.?\d*/)?.[0];
+        return amount ? parseFloat(amount).toFixed(2) : null;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('OCR Error:', error);
+      return null;
+    }
   }
-}
-getTextfromImage('receipt.jpg')
-// create user
+
+  async function testOCR(imagePath) {
+    const result = await getTextFromImage(imagePath);
+    console.log('OCR Result:', result);
+  }
+  
+  testOCR('deposit.jpg');
+
 router.post('/', async (req, res) => {
     try {
         const { User } = req.body;
@@ -36,55 +62,50 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:email', async (req,res) => {
-    const { email } = req.params;
+    const { email } = req.params
   
-    console.log("Searching for email:", email);
-  
-    const Userdata = await UserProfile.findOne({
-        $or: [
-            {"User.PersonalInfo.Email": email},
-            {"User.PersonalInfo.email": email}
-        ]
-    });
+    const Userdata = await UserProfile.findOne({"User.PersonalInfo.email":email})
   
     if(!Userdata) {
-        return res.status(404).json({error: 'No such user'});
+      return res.status(404).json({error: 'No such user'})
     }
-    
-    console.log("Found user:", Userdata);
-    res.status(200).json(Userdata);
+    res.status(200).json(Userdata)
 });
 
-router.patch('/:email', async (req, res) => {
+router.post('/chatbot',async (req,res)=>{
+  const {email, userInput} =  req.body
+
+  const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email":email})
+  const chatHistory = Userdata.User.AccountInfo.History
+  
+  const headers = {
+    'Authorization': `Bearer ${process.env.SAMBANOVA_APIKEY}`,
+    'Content-Type': 'application/json'
+  };
     try {
-        const { email } = req.params;
-        const { AccountInfo } = req.body;
+      const requestBody = {
+        model: "Meta-Llama-3.1-8B-Instruct",
+        messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          ...chatHistory.length > 0 ? chatHistory : [{ role: "system", content: "This is the start of a new conversation." }],
+          { role: "user", content: userInput }
+        ],
+        temperature: 0.7, 
+        max_tokens: 100
+      };
+      
+      const response = await axios.post("https://api.sambanova.ai/v1/chat/completions", requestBody, { headers });
+      const completionText = response.data.choices?.[0]?.message?.content || 'No response';
+      
+      Userdata.User.AccountInfo.History.push({role:"user",content:userInput})
+      Userdata.User.AccountInfo.History.push({role:"assistant",content:completionText})
 
-        const updateData = {
-            $set: {
-                "User.AccountInfo.Occupation": AccountInfo.Occupation,
-                "User.AccountInfo.Income": AccountInfo.Income,
-                "User.AccountInfo.Deposit": AccountInfo.Deposit,
-                "User.AccountInfo.Goal": AccountInfo.Goal,
-                "User.AccountInfo.GoalAmount": AccountInfo.GoalAmount,
-                "User.AccountInfo.CurrentDone": AccountInfo.CurrentDone
-            }
-        };
+      await Userdata.save()
+      res.json({"botresponse":completionText})
 
-        const Userdata = await UserProfile.findOneAndUpdate(
-            { "User.PersonalInfo.Email": email },
-            updateData,
-            { new: true }
-        );
-
-        if (!Userdata) {
-            return res.status(404).json({ error: 'No such user' });
-        }
-
-        res.status(200).json({ success: true, Userdata });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+  } catch (error) {
+    console.error('Error with SambaNova API request:', error.response?.data || error.message);
+  }
 });
 
 module.exports = router;
