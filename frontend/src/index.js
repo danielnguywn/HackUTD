@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client';  // Updated import
 import SignIn from "./Pages/signin";
 import SignUp from "./Pages/signup";
 import Dashboard from "./Pages/dashboard";
+import Questionnaire from "./Pages/questionnaire";
 
 // Get the root element
 const container = document.getElementById('root');
@@ -21,6 +22,7 @@ root.render(
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/form" element={<Questionnaire />} />
       </Routes>
     </Router>
   </React.StrictMode>

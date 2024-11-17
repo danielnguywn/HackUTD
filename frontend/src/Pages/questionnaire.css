@@ -1,0 +1,83 @@
+.page-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-background {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    height: 70vh;
+    background-color: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-top: 10vh;
+}
+
+.form-header {
+    font-family: 'Gantari';
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    font-family: 'Gantari';
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.form-input {
+    font-family: 'Gantari';
+    display: flex;
+    background-color: var(--gray);
+    border-radius: 3rem;
+    width: 100%;
+    height: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: all ease 0.15s;
+}
+
+.form-input:hover {
+    background-color: var(--dark-gray);
+}
+
+.form-input:focus {
+    background-color: var(--gray);
+    outline: none;
+}
+
+.form-select-background {
+    display: flex;
+    background-color: var(--gray);
+    border-radius: 3rem;
+    width: 100%;
+    transition: all ease 0.15s;
+    margin-bottom: 2rem;
+}
+
+.form-select-background:hover {
+    background-color: var(--dark-gray);
+}
+
+.form-select {
+    font-family: 'Gantari';
+    width: 100%;
+    margin: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: none;
+    transition: all ease 0.15s;
+}
+
+.form-select:focus {
+    outline: none;
+}
+
+.align-right {
+    margin-left: auto;
+}

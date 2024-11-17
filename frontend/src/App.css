@@ -29,6 +29,7 @@
 .teal-button:hover {
     background-color: var(--teal-dark);
     border-color: var(--teal-dark);
+    cursor: pointer;
 }
 
 @keyframes fadeIn {

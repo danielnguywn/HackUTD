@@ -93,12 +93,10 @@ router.patch('/:email', async (req, res) => {
 
       const updateData = {
           $set: {
-              "User.AccountInfo.Occupation": AccountInfo.Occupation,
-              "User.AccountInfo.Income": AccountInfo.Income,
               "User.AccountInfo.Deposit": AccountInfo.Deposit,
               "User.AccountInfo.Goal": AccountInfo.Goal,
               "User.AccountInfo.GoalAmount": AccountInfo.GoalAmount,
-              "User.AccountInfo.CurrentDone": AccountInfo.CurrentDone
+              "User.AccountInfo.CurrentAmount": AccountInfo.CurrentAmount
           }
       };
 
@@ -123,8 +121,8 @@ router.post('/chatbot',async (req,res)=>{
 
   const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email":email})
   //console.log(Userdata)
-  //console.log(Userdata)
-  const chatHistory = await Userdata.User.AccountInfo.History
+  console.log(Userdata)
+  const chatHistory = Userdata.User.AccountInfo.History
   console.log(chatHistory)
   const headers = {
     'Authorization': `Bearer ${process.env.SAMBANOVA_APIKEY}`,
