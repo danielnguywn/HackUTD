@@ -1,0 +1,58 @@
+:root {
+    --teal: #40B7BA;
+    --teal-dark: #2A8199;
+    --purple: #7579E1;
+    --orange: #FF9408;
+    --gray: #E9E9E9;
+}
+
+.teal-button {
+    font-family: 'Gantari';
+    width: fit-content;
+    height: fit-content;
+    padding: .75em;
+    padding-left: 2em;
+    padding-right: 2em;
+    background-color: var(--teal);
+    border-style: solid;
+    border-color: var(--teal);
+    border-width: 2px;
+    border-radius: 2em;
+    color: white;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: ease all 0.15s;
+}
+
+.teal-button:hover {
+    background-color: var(--teal-dark);
+    border-color: var(--teal-dark);
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes slideFromLeft {
+    0% {
+        background-position-x: -500%;
+    }
+    100% {
+        background-position-x: left;
+    }
+}
+
+@keyframes slideFromRight {
+    0% {
+        background-position-x: 500%;
+    }
+    100% {
+        background-position-x: right;
+    }
+}

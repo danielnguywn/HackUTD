@@ -1,0 +1,76 @@
+.light-gradient-background {
+    background-image: linear-gradient(var(--teal), var(--purple), var(--teal));
+    background-size: auto 200%;
+    width: 100vw;
+    height: 100vh;
+    animation: scrollGradientVertical 8s linear infinite;
+}
+
+.wave-background {
+    position: absolute;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/public/images/white-wave.svg');
+    background-position-x: left;
+    background-repeat: no-repeat;
+    animation: slideFromLeft ease 0.7s;
+}
+
+.left-center-align {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    height: 100%;
+    margin-left: 5vw;
+    justify-content: center;
+    align-content: center;
+    animation: fadeIn ease 1.2s;
+}
+
+.header-text {
+    font-family: 'Gantari';
+    font-weight: 800;
+    font-size: 4rem;
+    background: -webkit-linear-gradient(left, var(--teal), var(--purple), var(--teal));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: scrollGradientHorizontal 5s linear infinite;
+}
+
+.tagline-text-1 {
+    display: flex;
+    margin-top: 0.25rem;
+    font-family: 'Gantari';
+    font-weight: 600;
+    font-size: 2rem;
+    color: var(--orange);
+}
+
+.tagline-text-2 {
+    font-family: 'Gantari';
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: var(--orange);
+    margin-bottom: 1.5rem;
+}
+
+@keyframes scrollGradientHorizontal {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 0%;
+    }
+}
+
+@keyframes scrollGradientVertical {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 0% 200%;
+    }
+}
