@@ -27,15 +27,10 @@ const Dashboard = () => {
             };
     
             try {
-                const response = await axios.post('http://localhost:4000/api/users/chatbot', data, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+                const response = await axios.post('http://localhost:4000/api/users/chatbot', data);
                 console.log('Response:', response.data);
                 setUserInput('');
-            }
-            catch (error) {
+            } catch (error) {
                 console.error('Error:', error.response ? error.response.data : error.message);
             }
         } else {
@@ -91,7 +86,9 @@ const Dashboard = () => {
                                 <input 
                                     className="chat-input"
                                     placeholder="Ask Poyo for advice"
-                                    onKeyDown={sendMessage}
+                                    value={userInput}
+                                    onChange={(e) => setUserInput(e.target.value)}
+                                    onKeyDown={handleKeyDown}
                                 />
                             </div>
                         </div>
