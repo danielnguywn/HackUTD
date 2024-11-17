@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [chatHistory, setChatHistory] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
-    const [transactionAmount, setTransactionAmount] = useState(null);
+    const [uploadedAmounts, setUploadedAmounts] = useState([]);
     const fileInputRef = useRef(null);
 
     const handleKeyDown = (e) => {
@@ -51,9 +51,8 @@ const Dashboard = () => {
                 }
             });
 
-            const amount = response.data.amount
-            console.log('Upload successful:', amount);
-            setTransactionAmount(amount);
+            console.log('Upload successful:', response.data.amount);
+            setUploadedAmounts(prevAmounts => [...prevAmounts, response.data.amount]);
         } catch (error) {
             console.error('Upload failed:', error);
         } finally {
@@ -150,10 +149,21 @@ const Dashboard = () => {
                                 <div className="dash-widget-large-divider"/>
                                 <div className="dash-widget-large-half">
                                     <div className="dash-widget-label">Transactions</div>
-                                    {transactionAmount !== null && (
-                                        <div className={transactionAmount < 0 ? 'transaction-negative' : 'transaction-positive'}>
-                                            {transactionAmount < 0 ? '-' : '+'}${Math.abs(transactionAmount)}
-                                        </div>
+                                    {uploadedAmounts.length > 0 ? (
+                                        uploadedAmounts.map((amount, index) => (
+                                            amount !== null && amount !== undefined ? (
+                                                <div 
+                                                    key={index} 
+                                                    className={amount >= 0 ? 'transaction-positive' : 'transaction-negative'}
+                                                >
+                                                    {amount >= 0 ? '+' : '-'}${Math.abs(amount).toFixed(2)}
+                                                </div>
+                                            ) : (
+                                                <div key={index} className="transaction-negative">Invalid Amount</div>
+                                            )
+                                        ))
+                                    ) : (
+                                        <div>No transactions yet.</div>
                                     )}
                                 </div>
                             </div>
