@@ -72,6 +72,38 @@ router.get('/:email', async (req,res) => {
     res.status(200).json(Userdata)
 });
 
+router.patch('/:email', async (req, res) => {
+  try {
+      const { email } = req.params;
+      const { AccountInfo } = req.body;
+
+      const updateData = {
+          $set: {
+              "User.AccountInfo.Occupation": AccountInfo.Occupation,
+              "User.AccountInfo.Income": AccountInfo.Income,
+              "User.AccountInfo.Deposit": AccountInfo.Deposit,
+              "User.AccountInfo.Goal": AccountInfo.Goal,
+              "User.AccountInfo.GoalAmount": AccountInfo.GoalAmount,
+              "User.AccountInfo.CurrentDone": AccountInfo.CurrentDone
+          }
+      };
+
+      const Userdata = await UserProfile.findOneAndUpdate(
+          { "User.PersonalInfo.Email": email },
+          updateData,
+          { new: true }
+      );
+
+      if (!Userdata) {
+          return res.status(404).json({ error: 'No such user' });
+      }
+
+      res.status(200).json({ success: true, Userdata });
+  } catch (error) {
+      res.status(400).json({ error: error.message });
+  }
+});
+
 router.post('/chatbot',async (req,res)=>{
   const {email, userInput} =  req.body
 
