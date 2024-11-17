@@ -1,13 +1,11 @@
 const UserProfile = require("./UserSchema");
 const express = require("express");
 const router = express.Router();
-require ('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
 const OpenAI = require('openai')
 const axios = require('axios')
 
-
-// create user
 router.post('/', async (req, res) => {
     try {
         const { User } = req.body;
@@ -21,73 +19,49 @@ router.post('/', async (req, res) => {
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
-  });
+});
 
-// get single user
-router.get('/:email', async (req,res) => {
-    const { email } = req.params
+router.get('/:email', async (req, res) => {
+    const { email } = req.params;
   
-    const Userdata = await UserProfile.findOne({"User.PersonalInfo.email":email})
+    const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email": email});
   
-    if( !Userdata) {
-      return res.status(404).json({error: 'No such user'})
+    if (!Userdata) {
+        return res.status(404).json({error: 'No such user'});
     }
-    res.status(200).json(Userdata)
-  
-  })
+    res.status(200).json(Userdata);
+});
 
-
-  //chatbot history
-router.post('/chatbot',async (req,res)=>{
-  const {email, userInput} =  req.body
-
-  const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email":email})
-  //console.log(Userdata)
-
-  const chatHistory = Userdata.User.AccountInfo.History
-  console.log(chatHistory)
-  const headers = {
-    'Authorization': `Bearer ${process.env.SAMBANOVA_APIKEY}`,
-    'Content-Type': 'application/json'
-  };
+router.patch('/:email', async (req, res) => {
     try {
-      const requestBody = {
-        model: "Meta-Llama-3.1-8B-Instruct",
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          ...chatHistory.length > 0 ? chatHistory : [{ role: "system", content: "This is the start of a new conversation." }],
-          { role: "user", content: userInput }
-        ],
-        temperature: 0.7, 
-        max_tokens: 100
-      };
-      console.log('fine here')
-      
-      const response = await axios.post("https://api.sambanova.ai/v1/chat/completions", requestBody, { headers });
-      console.log('Fine fine here')
-      const completionText = response.data.choices?.[0]?.message?.content || 'No response';
-      console.log(completionText)
-      Userdata.User.AccountInfo.History.push({role:"user",content:userInput})
-      Userdata.User.AccountInfo.History.push({role:"assistant",content:completionText})
+        const { email } = req.params;
+        const { AccountInfo } = req.body;
 
-      await Userdata.save()
+        const updateData = {
+            $set: {
+                "User.AccountInfo.Occupation": AccountInfo.Occupation,
+                "User.AccountInfo.Income": AccountInfo.Income,
+                "User.AccountInfo.Deposit": AccountInfo.Deposit,
+                "User.AccountInfo.Goal": AccountInfo.Goal,
+                "User.AccountInfo.GoalAmount": AccountInfo.GoalAmount,
+                "User.AccountInfo.CurrentDone": AccountInfo.CurrentDone
+            }
+        };
 
+        const Userdata = await UserProfile.findOneAndUpdate(
+            { "User.PersonalInfo.Email": email },
+            updateData,
+            { new: true }
+        );
 
-      console.log('SambaNova Completion:', completionText);
+        if (!Userdata) {
+            return res.status(404).json({ error: 'No such user' });
+        }
 
-
-      res.json({"botresponse":completionText})
-
-  } catch (error) {
-    console.error('Error with SambaNova API request:', error.response?.data || error.message);
-  }
-
-
-
-})
-
-
+        res.status(200).json({ success: true, Userdata });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
 module.exports = router;
-  
-
