@@ -26,6 +26,14 @@
     text-decoration: none;
 }
 
+.title-white {
+    font-family: 'Gantari';
+    font-size: 1.5em;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+}
+
 .navbar-left {
     display: flex;
     height: 100%;
@@ -88,5 +96,12 @@
 .navbar-button-hollow:hover {
     background-color: white;
     color: var(--teal);
+}
+
+.navbar-profile-picture {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-image: url('/public/images/white-wave.svg');
 }
 
