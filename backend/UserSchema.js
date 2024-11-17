@@ -39,6 +39,12 @@ const UserSchema = new Schema({
             type: String, 
             //required: true
         },
+        Transactions: [
+            {
+                type: String,
+                //required: true,
+            },
+        ],
         History: [
             {
               role: {

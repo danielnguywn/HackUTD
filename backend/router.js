@@ -37,7 +37,7 @@ router.post('/fileupload',upload.single('file'), async (req,res)=>{
   
     const text = result[0].textAnnotations[0].description.toLowerCase();
     const lines = text.split('\n');
-    const finalamount = 0
+    var finalamount = 0
     if (text.includes('withdraw') || text.includes('withdrawal')) {
       const amount = lines.find(line => 
         line.includes('$') && !line.includes('balance')
