@@ -19,14 +19,23 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/:email', async (req, res) => {
+router.get('/:email', async (req,res) => {
     const { email } = req.params;
   
-    const Userdata = await UserProfile.findOne({"User.PersonalInfo.Email": email});
+    console.log("Searching for email:", email);
   
-    if (!Userdata) {
+    const Userdata = await UserProfile.findOne({
+        $or: [
+            {"User.PersonalInfo.Email": email},
+            {"User.PersonalInfo.email": email}
+        ]
+    });
+  
+    if(!Userdata) {
         return res.status(404).json({error: 'No such user'});
     }
+    
+    console.log("Found user:", Userdata);
     res.status(200).json(Userdata);
 });
 
